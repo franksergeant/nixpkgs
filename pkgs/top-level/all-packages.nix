@@ -233,7 +233,7 @@ in
   grsync = callPackage ../applications/misc/grsync { };
 
   dockerTools = callPackage ../build-support/docker {
-    writePython3 = writers.writePython3;
+    writePython3 = buildPackages.writers.writePython3;
   };
 
   snapTools = callPackage ../build-support/snap { };
@@ -3913,16 +3913,25 @@ in
 
   gitkraken = callPackage ../applications/version-management/gitkraken { };
 
-  gitlab = callPackage ../applications/version-management/gitlab { };
-  gitlab-ee = callPackage ../applications/version-management/gitlab { gitlabEnterprise = true; };
+  gitlab = callPackage ../applications/version-management/gitlab {
+    ruby = ruby_2_7;
+  };
+  gitlab-ee = callPackage ../applications/version-management/gitlab {
+    ruby = ruby_2_7;
+    gitlabEnterprise = true;
+  };
 
   gitlab-runner = callPackage ../development/tools/continuous-integration/gitlab-runner { };
 
-  gitlab-shell = callPackage ../applications/version-management/gitlab/gitlab-shell { };
+  gitlab-shell = callPackage ../applications/version-management/gitlab/gitlab-shell {
+    ruby = ruby_2_7;
+  };
 
   gitlab-workhorse = callPackage ../applications/version-management/gitlab/gitlab-workhorse { };
 
-  gitaly = callPackage ../applications/version-management/gitlab/gitaly { };
+  gitaly = callPackage ../applications/version-management/gitlab/gitaly {
+    ruby = ruby_2_7;
+  };
 
   gitstats = callPackage ../applications/version-management/gitstats { };
 
@@ -9665,6 +9674,10 @@ in
   rust-cbindgen = callPackage ../development/tools/rust/cbindgen {
     inherit (darwin.apple_sdk.frameworks) Security;
   };
+  rust-cbindgen_0_15 = callPackage ../development/tools/rust/cbindgen/0_15.nix {
+    inherit (darwin.apple_sdk.frameworks) Security;
+  };
+
   rustup = callPackage ../development/tools/rust/rustup {
     inherit (darwin.apple_sdk.frameworks) CoreServices Security;
   };
@@ -9896,7 +9909,7 @@ in
   inherit (beam.interpreters)
     erlang erlangR23 erlangR22 erlangR21 erlangR20 erlangR19 erlangR18
     erlang_odbc erlang_javac erlang_odbc_javac erlang_nox erlang_basho_R16B02
-    elixir elixir_1_10 elixir_1_9 elixir_1_8 elixir_1_7 elixir_1_6;
+    elixir elixir_1_10 elixir_1_9 elixir_1_8 elixir_1_7;
 
   inherit (beam.packages.erlang)
     rebar rebar3
@@ -14467,6 +14480,9 @@ in
   nss_latest = lowPrio (callPackage ../development/libraries/nss/latest.nix { });
   nss_3_44 = lowPrio (callPackage ../development/libraries/nss/3.44.nix { });
   nssTools = nss.tools;
+
+  # required for stable thunderbird and firefox-esr-78
+  nss_3_53 = lowPrio (callPackage ../development/libraries/nss/3.53.nix { });
 
   nss_wrapper = callPackage ../development/libraries/nss_wrapper { };
 
@@ -22229,6 +22245,7 @@ in
   pdfsam-basic = callPackage ../applications/misc/pdfsam-basic { };
 
   mupdf = callPackage ../applications/misc/mupdf { };
+  mupdf_1_17 = callPackage ../applications/misc/mupdf/1.17.nix { };
 
   mystem = callPackage ../applications/misc/mystem { };
 
@@ -22446,6 +22463,8 @@ in
   parlatype = callPackage ../applications/audio/parlatype { };
 
   packet = callPackage ../development/tools/packet { };
+
+  packet-sd = callPackage ../development/tools/packet-sd { };
 
   packet-cli = callPackage ../development/tools/packet-cli { };
 
